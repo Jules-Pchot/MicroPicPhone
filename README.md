@@ -14,7 +14,6 @@ Application mobile cross-platform permettant aux chauffeurs de camion de photogr
 
 ### Backend API
 - **FastAPI** (Python)
-- **TensorFlow** pour l'inférence du modèle CNN
 - **OpenCV** pour le traitement d'image
 - **Uvicorn** comme serveur ASGI
 
@@ -33,7 +32,7 @@ Project Microscope/
 │   ├── app/
 │   │   ├── services/
 │   │   │   ├── image_processor.py    # Traitement d'image
-│   │   │   └── model_service.py      # Chargement CNN et prédiction
+│   │   │   └── model_service.py      # Chargement prédiction
 │   │   │
 │   │   └── models/
 │   │       └── cnn_model.h5          # ⚠️ À placer ici
@@ -234,11 +233,11 @@ curl -X POST http://localhost:8000/predict \
 
 ## ⚠️ Points d'Attention
 
-### 1. Modèle CNN Manquant
+### 1. Modèle Manquant
 
-Si vous n'avez pas encore de modèle `cnn_model.h5` :
+Si vous n'avez pas encore de modèle `model.h5` :
 - Le backend démarrera mais retournera une erreur lors des prédictions
-- Placez votre modèle entraîné dans `backend/app/models/cnn_model.h5`
+- Placez votre modèle entraîné dans `backend/app/models/model.h5`
 
 ### 2. Permissions Caméra
 
