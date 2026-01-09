@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "BioMicro",
+    "slug": "biomicro-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1B4D3E"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.biomicro.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "BioMicro a besoin d'accéder à la caméra pour photographier les échantillons microscopiques.",
+        "NSPhotoLibraryUsageDescription": "BioMicro a besoin d'accéder à votre galerie pour sélectionner des images."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1B4D3E"
+      },
+      "package": "com.biomicro.app",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Autoriser BioMicro à accéder à votre caméra"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "L'application accède à vos photos pour analyser les échantillons"
+        }
+      ]
+    ]
+  }
+}
