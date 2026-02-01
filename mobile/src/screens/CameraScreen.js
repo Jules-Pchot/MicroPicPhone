@@ -6,16 +6,19 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import Slider from '@react-native-community/slider';
 import { colors, spacing, borderRadius } from '../styles/theme';
 import { predictImage } from '../services/api';
+import { saveAnalysis } from '../services/historyService';
+import LoadingOverlay from '../components/LoadingOverlay';
 
 export default function CameraScreen({ navigation }) {
   const [permission, requestPermission] = useCameraPermissions();
   const [isLoading, setIsLoading] = useState(false);
+  const [zoom, setZoom] = useState(0);
   const cameraRef = useRef(null);
 
   // Gérer les permissions
@@ -56,7 +59,7 @@ export default function CameraScreen({ navigation }) {
   // Sélectionner depuis la galerie
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       quality: 0.8,
     });
 
@@ -70,6 +73,8 @@ export default function CameraScreen({ navigation }) {
   const analyzeImage = async (imageUri) => {
     try {
       const result = await predictImage(imageUri);
+      // Sauvegarder dans l'historique
+      await saveAnalysis({ ...result, imageUri });
       navigation.navigate('Result', { result, imageUri });
     } catch (error) {
       Alert.alert(
@@ -89,6 +94,7 @@ export default function CameraScreen({ navigation }) {
           ref={cameraRef}
           style={styles.camera}
           facing="back"
+          zoom={zoom}
         >
           {/* Overlay avec guide de cadrage */}
           <View style={styles.overlay}>
@@ -105,14 +111,28 @@ export default function CameraScreen({ navigation }) {
         </CameraView>
       </View>
 
+      {/* Zoom Slider */}
+      <View style={styles.zoomContainer}>
+        <Text style={styles.zoomLabel}>🔍 Zoom: {Math.round(zoom * 100)}%</Text>
+        <Slider
+          style={styles.zoomSlider}
+          minimumValue={0}
+          maximumValue={1}
+          step={0.01}
+          value={zoom}
+          onValueChange={setZoom}
+          minimumTrackTintColor={colors.primary}
+          maximumTrackTintColor={colors.border}
+          thumbTintColor={colors.primary}
+        />
+      </View>
+
+      {/* Loading Overlay */}
+      <LoadingOverlay visible={isLoading} message="Analyse en cours..." />
+
       {/* Controls */}
       <View style={styles.controls}>
-        {isLoading ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-            <Text style={styles.loadingText}>Analyse en cours...</Text>
-          </View>
-        ) : (
+        {!isLoading && (
           <>
             <TouchableOpacity
               style={styles.galleryButton}
@@ -163,21 +183,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.md,
-    borderRadius: borderRadius.md,
+    borderRadius: borderRadius.lg,
   },
   permissionButtonText: {
-    color: colors.surface,
+    color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
   cameraContainer: {
     flex: 1,
+    overflow: 'hidden',
   },
   camera: {
     flex: 1,
   },
   overlay: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -188,87 +209,102 @@ const styles = StyleSheet.create({
   },
   corner: {
     position: 'absolute',
-    width: 40,
-    height: 40,
-    borderColor: colors.accent,
-    borderWidth: 3,
+    width: 30,
+    height: 30,
+    borderColor: colors.primary,
   },
   topLeft: {
     top: 0,
     left: 0,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
+    borderTopWidth: 3,
+    borderLeftWidth: 3,
   },
   topRight: {
     top: 0,
     right: 0,
-    borderLeftWidth: 0,
-    borderBottomWidth: 0,
+    borderTopWidth: 3,
+    borderRightWidth: 3,
   },
   bottomLeft: {
     bottom: 0,
     left: 0,
-    borderRightWidth: 0,
-    borderTopWidth: 0,
+    borderBottomWidth: 3,
+    borderLeftWidth: 3,
   },
   bottomRight: {
     bottom: 0,
     right: 0,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
+    borderBottomWidth: 3,
+    borderRightWidth: 3,
   },
   guideText: {
     color: '#fff',
     fontSize: 14,
     marginTop: spacing.lg,
-    textShadowColor: 'rgba(0,0,0,0.8)',
+    textShadowColor: 'rgba(0, 0, 0, 0.8)',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 3,
+  },
+  zoomContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+  },
+  zoomLabel: {
+    color: '#fff',
+    fontSize: 12,
+    textAlign: 'center',
+    marginBottom: spacing.xs,
+  },
+  zoomSlider: {
+    width: '100%',
+    height: 30,
   },
   controls: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingVertical: spacing.xl,
-    paddingHorizontal: spacing.lg,
-    backgroundColor: 'rgba(0,0,0,0.8)',
+    paddingVertical: spacing.lg,
+    backgroundColor: '#000',
   },
   galleryButton: {
-    padding: spacing.md,
+    backgroundColor: colors.surface,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.md,
   },
   galleryButtonText: {
-    color: '#fff',
+    color: colors.text,
     fontSize: 14,
+    fontWeight: '500',
   },
   captureButton: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: 'rgba(255,255,255,0.3)',
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: 'transparent',
+    borderWidth: 4,
+    borderColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
   captureButtonInner: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     backgroundColor: '#fff',
   },
   backButton: {
-    padding: spacing.md,
-  },
-  backButtonText: {
-    color: '#fff',
-    fontSize: 24,
-  },
-  loadingContainer: {
-    flex: 1,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  loadingText: {
+  backButtonText: {
     color: '#fff',
-    marginTop: spacing.md,
-    fontSize: 16,
+    fontSize: 20,
+    fontWeight: '600',
   },
 });

@@ -13,14 +13,23 @@ export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
-      
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.logo}>🔬</Text>
-        <Text style={styles.title}>BioMicro</Text>
-        <Text style={styles.subtitle}>Analyse de bio-minéralisation</Text>
+
+      {/* Header with Settings */}
+      <View style={styles.headerRow}>
+        <View style={{ width: 44 }} />
+        <View style={styles.headerCenter}>
+          <Text style={styles.logo}>🔬</Text>
+          <Text style={styles.title}>BioMicro</Text>
+          <Text style={styles.subtitle}>Analyse de bio-minéralisation</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.settingsButton}
+          onPress={() => navigation.navigate('Settings')}
+        >
+          <Text style={styles.settingsIcon}>⚙️</Text>
+        </TouchableOpacity>
       </View>
-      
+
       {/* Main Content */}
       <View style={styles.content}>
         <View style={styles.infoCard}>
@@ -39,8 +48,8 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
       </View>
-      
-      {/* Action Button */}
+
+      {/* Action Buttons */}
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.primaryButton}
@@ -49,6 +58,15 @@ export default function HomeScreen({ navigation }) {
         >
           <Text style={styles.buttonIcon}>📷</Text>
           <Text style={styles.buttonText}>Analyser un échantillon</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={() => navigation.navigate('History')}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.secondaryButtonIcon}>📋</Text>
+          <Text style={styles.secondaryButtonText}>Voir l'historique</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -60,10 +78,32 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  header: {
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.lg,
+  },
+  headerCenter: {
     alignItems: 'center',
-    paddingTop: spacing.xxl,
-    paddingBottom: spacing.xl,
+    flex: 1,
+  },
+  settingsButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.surface,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  settingsIcon: {
+    fontSize: 22,
   },
   logo: {
     fontSize: 64,
@@ -79,6 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.textSecondary,
     marginTop: spacing.xs,
+    marginBottom: spacing.lg,
   },
   content: {
     flex: 1,
@@ -138,6 +179,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 5,
+    marginBottom: spacing.sm,
   },
   buttonIcon: {
     fontSize: 24,
@@ -147,5 +189,24 @@ const styles = StyleSheet.create({
     color: colors.surface,
     fontSize: 18,
     fontWeight: '600',
+  },
+  secondaryButton: {
+    backgroundColor: colors.surface,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing.md,
+    borderRadius: borderRadius.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  secondaryButtonIcon: {
+    fontSize: 20,
+    marginRight: spacing.sm,
+  },
+  secondaryButtonText: {
+    color: colors.text,
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
