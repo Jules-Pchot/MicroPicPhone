@@ -3,7 +3,7 @@ import axios from 'axios';
 // URL de l'API - À modifier selon votre déploiement
 // En développement local, utiliser l'IP de votre machine
 // Exemple: 'http://192.168.1.100:8000'
-const API_BASE_URL = 'http://192.168.0.20:8000';
+const API_BASE_URL = 'http://10.101.26.205:8000';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

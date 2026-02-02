@@ -1,37 +1,40 @@
 """
 Service de prétraitement d'images pour le modèle BacteriaCNN.
-Reproduit exactement les transformations utilisées lors de l'entraînement.
+Reproduit EXACTEMENT les transformations utilisées lors de l'entraînement.
 
-Transformations:
-1. Conversion en niveaux de gris
-2. Redimensionnement à 256x256
-3. Normalisation avec mean/std du dataset
+Pipeline identique au notebook Colab:
+    transforms.Grayscale(1),
+    transforms.Resize((256, 256)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.656081], std=[0.145692])
 """
 
-import cv2
 import numpy as np
 from PIL import Image
 import io
+from torchvision import transforms
 
-# Paramètres de normalisation (à synchroniser avec model_service.py)
-# Ces valeurs sont calculées sur le dataset d'entraînement
-NORMALIZE_MEAN = 0.5  # À ajuster avec les vraies valeurs
-NORMALIZE_STD = 0.5   # À ajuster avec les vraies valeurs
+# Paramètres de normalisation (calculés sur le dataset d'entraînement)
+# Valeurs extraites du notebook Colab de Kylian
+NORMALIZE_MEAN = 0.656081
+NORMALIZE_STD = 0.145692
 
 # Taille d'entrée du modèle
 INPUT_SIZE = (256, 256)
+
+# Pipeline de transformation IDENTIQUE au notebook d'entraînement
+_transform = transforms.Compose([
+    transforms.Grayscale(1),
+    transforms.Resize(INPUT_SIZE),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[NORMALIZE_MEAN], std=[NORMALIZE_STD])
+])
 
 
 def preprocess_image(image_bytes: bytes) -> np.ndarray:
     """
     Applique le prétraitement d'image pour le modèle BacteriaCNN.
-    
-    Étapes:
-    1. Chargement de l'image depuis les bytes
-    2. Conversion en niveaux de gris (grayscale)
-    3. Redimensionnement à 256x256 pixels
-    4. Conversion en float32 (0-1)
-    5. Normalisation avec mean/std
+    Utilise EXACTEMENT le même pipeline que le notebook d'entraînement.
     
     Args:
         image_bytes: Image brute en bytes (JPEG, PNG, etc.)
@@ -42,31 +45,16 @@ def preprocess_image(image_bytes: bytes) -> np.ndarray:
     # Charger l'image depuis les bytes
     image = Image.open(io.BytesIO(image_bytes))
     
-    # Convertir en RGB si nécessaire (pour gérer les images RGBA, etc.)
-    if image.mode != 'RGB':
+    # Convertir en RGB si nécessaire (pour gérer les images RGBA, P mode, etc.)
+    if image.mode not in ['RGB', 'L']:
         image = image.convert('RGB')
     
-    # Convertir en numpy array
-    img_array = np.array(image)
+    # Appliquer les transformations identiques au notebook
+    tensor = _transform(image)
     
-    # Conversion en niveaux de gris
-    if len(img_array.shape) == 3:
-        gray = cv2.cvtColor(img_array, cv2.COLOR_RGB2GRAY)
-    else:
-        gray = img_array
-    
-    # Redimensionner à 256x256
-    resized = cv2.resize(gray, INPUT_SIZE, interpolation=cv2.INTER_AREA)
-    
-    # Convertir en float32 et normaliser à [0, 1]
-    normalized = resized.astype(np.float32) / 255.0
-    
-    # Appliquer la normalisation (mean/std)
-    normalized = (normalized - NORMALIZE_MEAN) / NORMALIZE_STD
-    
-    # Ajouter la dimension channel (1, 256, 256)
-    # Le modèle attend: (batch, channel, height, width)
-    output = np.expand_dims(normalized, axis=0)
+    # Convertir en numpy array pour le modèle
+    # Shape: (1, 256, 256) - channel, height, width
+    output = tensor.numpy()
     
     return output
 

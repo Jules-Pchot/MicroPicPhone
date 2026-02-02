@@ -33,12 +33,12 @@ check_backend_deps() {
         echo -e "${COLOR_GREEN}✅ Environnement virtuel OK${COLOR_RESET}"
     fi
     
-    # Vérifier la présence du modèle
-    if [ ! -f "backend/app/models/cnn_model.h5" ]; then
-        echo -e "${COLOR_RED}⚠️  ATTENTION : Modèle CNN non trouvé !${COLOR_RESET}"
-        echo -e "${COLOR_YELLOW}Placez votre fichier cnn_model.h5 dans backend/app/models/${COLOR_RESET}"
+    # Vérifier la présence du modèle PyTorch
+    if [ ! -f "backend/app/models/model.pt" ]; then
+        echo -e "${COLOR_RED}⚠️  ATTENTION : Modèle PyTorch non trouvé !${COLOR_RESET}"
+        echo -e "${COLOR_YELLOW}Placez votre fichier model.pt dans backend/app/models/${COLOR_RESET}"
     else
-        echo -e "${COLOR_GREEN}✅ Modèle CNN trouvé${COLOR_RESET}"
+        echo -e "${COLOR_GREEN}✅ Modèle PyTorch trouvé${COLOR_RESET}"
     fi
 }
 

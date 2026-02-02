@@ -17,9 +17,9 @@ import numpy as np
 MODEL_PATH = Path(__file__).parent.parent / "models" / "model.pt"
 
 # Paramètres de normalisation (calculés sur le dataset d'entraînement)
-# Ces valeurs doivent correspondre à celles utilisées lors de l'entraînement
-NORMALIZE_MEAN = 0.5  # À ajuster avec les vraies valeurs de Kylian
-NORMALIZE_STD = 0.5   # À ajuster avec les vraies valeurs de Kylian
+# Valeurs extraites du notebook Colab de Kylian
+NORMALIZE_MEAN = 0.656081
+NORMALIZE_STD = 0.145692
 
 # Mapping des classes
 CLASS_NAMES = ["expo", "mort", "stationnaire"]  # Ordre alphabétique (ImageFolder)
