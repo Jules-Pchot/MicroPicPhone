@@ -10,16 +10,17 @@ Application mobile pour l'analyse d'images microscopiques de *Sporosarcina paste
 | **Frontend** | React Native + Expo |
 | **Backend** | FastAPI + PyTorch |
 | **Modèle IA** | BacteriaCNN (3 classes) |
-| **Précision** | ~86% sur validation |
-| **Temps d'analyse** | 2-3 secondes |
+| **Précision** | ~98% sur validation |
+| **Temps d'analyse** | 2 secondes |
 
 ## 🦠 Phases Bactériennes Détectées
 
 | Phase | Résultat | Description |
 |-------|----------|-------------|
+| **Lag** | ⚠️ NO-GO | Aucune activité enzimatique |
 | **Exponentielle** | ✅ GO | Croissance active - Prêt pour déversement |
-| **Stationnaire** | ⚠️ NO-GO | Maximum atteint - Attendre |
-| **Mort** | ❌ NO-GO | Déclin - Renouveler la culture |
+| **Stationnaire** | ⚠️ NO-GO | Aucune activité enzimatique |
+| **Mort** | ❌ NO-GO | Aucune activité enzimatique |
 
 ## 🏗️ Architecture
 
