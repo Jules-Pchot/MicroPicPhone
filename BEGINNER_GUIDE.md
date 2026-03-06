@@ -1,28 +1,3 @@
-# 🎓 Guide du Débutant - BioMicro
-
-## 👋 Bienvenue !
-
-Ce guide est fait pour vous si c'est votre **première fois** avec React Native, FastAPI, ou le développement mobile en général.
-
----
-
-## 📚 Prérequis - Ce qu'il faut savoir
-
-### Niveau Requis : Débutant-Intermédiaire
-
-**Ce que vous devez connaître :**
-- ✅ Utilisation basique du terminal (cd, ls, etc.)
-- ✅ Concepts de base de programmation
-- ✅ Notions de client-serveur
-
-**Ce que vous allez apprendre :**
-- 📱 Développement d'application mobile
-- 🔧 Création d'API REST
-- 🧠 Intégration de Machine Learning
-- 🚀 Déploiement en production
-
----
-
 ## 🛠️ Étape 0 : Installation des Outils
 
 ### 1. Python (pour le backend)
@@ -72,19 +47,6 @@ brew install node@18
 - Chercher "Expo Go"
 - Installer
 
----
-
-### 4. Éditeur de Code (optionnel mais recommandé)
-
-**Visual Studio Code** (gratuit)
-1. Télécharger depuis [code.visualstudio.com](https://code.visualstudio.com/)
-2. Installer les extensions :
-   - Python
-   - JavaScript
-   - React Native Tools
-
----
-
 ## 🚀 Étape 1 : Premier Lancement (Local)
 
 ### Option A : Script Automatique (Recommandé)
@@ -92,8 +54,6 @@ brew install node@18
 ```bash
 # 1. Ouvrir le terminal
 # 2. Aller dans le dossier du projet
-cd "/Users/juwul/Desktop/Project Microscope"
-
 # 3. Vérifier la configuration
 ./check.sh
 
@@ -111,7 +71,6 @@ C'est tout ! Le backend et le mobile démarrent automatiquement.
 
 ```bash
 # 1. Aller dans le dossier backend
-cd "/Users/juwul/Desktop/Project Microscope/backend"
 
 # 2. Créer un environnement virtuel Python
 python3 -m venv venv
@@ -143,7 +102,6 @@ INFO:     Uvicorn running on http://0.0.0.0:8000
 ```bash
 # 1. Ouvrir un NOUVEAU terminal
 # 2. Aller dans le dossier mobile
-cd "/Users/juwul/Desktop/Project Microscope/mobile"
 
 # 3. Installer les dépendances
 npm install
@@ -389,84 +347,7 @@ Mobile (JavaScript)
 ### Git / GitHub
 - [Git Tutorial](https://git-scm.com/docs/gittutorial)
 - [GitHub Guides](https://guides.github.com/)
-
 ---
-
-## ✅ Checklist de Progression
-
-### Niveau 1 : Découverte
-- [ ] J'ai installé Python et Node.js
-- [ ] J'ai lancé le backend avec succès
-- [ ] J'ai lancé le mobile avec succès
-- [ ] J'ai vu l'app sur mon téléphone
-
-### Niveau 2 : Compréhension
-- [ ] Je comprends le rôle du backend
-- [ ] Je comprends le rôle du mobile
-- [ ] J'ai testé l'API avec curl ou Swagger
-- [ ] J'ai modifié une couleur dans theme.js
-
-### Niveau 3 : Modification
-- [ ] J'ai changé un texte dans HomeScreen.js
-- [ ] J'ai ajouté un console.log() dans api.js
-- [ ] J'ai testé avec mon propre modèle CNN
-- [ ] J'ai fait un test de bout en bout
-
-### Niveau 4 : Maîtrise
-- [ ] Je peux expliquer le code à quelqu'un
-- [ ] J'ai corrigé un bug
-- [ ] J'ai ajouté une fonctionnalité
-- [ ] Je suis prêt pour le déploiement
-
----
-
-## 🎯 Prochaines Étapes
-
-Une fois que vous êtes à l'aise en local :
-
-1. **Tester avec de vraies données**
-   - Images de microscope réelles
-   - Vérifier la précision
-
-2. **Optimiser**
-   - Ajuster les paramètres de traitement d'image
-   - Améliorer l'interface
-
-3. **Déployer**
-   - Suivre `DEPLOYMENT.md`
-   - Tester en production
-
-4. **Améliorer**
-   - Ajouter des fonctionnalités (historique, export)
-   - Refactoring du code
-
----
-
-## 💬 Besoin d'Aide ?
-
-### Ordre de Consultation
-
-1. **Ce guide** - Problèmes de démarrage
-2. **README.md** - Documentation complète
-3. **QUICKSTART.md** - Commandes rapides
-4. **DEVELOPMENT_NOTES.md** - Détails techniques
-
-### Erreurs Communes
-
-Cherchez dans les fichiers ci-dessus ou :
-- Stack Overflow
-- Discord/Forums React Native
-- Documentation officielle
-
----
-
-## 🎉 Félicitations !
-
-Vous avez maintenant une application mobile professionnelle qui :
-- ✅ Fonctionne sur iOS et Android
-- ✅ Communique avec une API
-- ✅ Utilise un modèle de Machine Learning
-- ✅ A une interface moderne et intuitive
 
 **Vous êtes maintenant développeur mobile full-stack ! 🚀**
 
